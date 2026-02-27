@@ -2,6 +2,9 @@
 #include <Windows.h>
 #include <tchar.h>
 #include <strsafe.h>
+#include "Graphics.hpp"
+#include <iostream>
+#include "renderer.hpp"
 
 LRESULT CALLBACK fnWinProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -60,7 +63,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLine
     ::ShowWindow(hwnd,iCmdShow);
     ::UpdateWindow(hwnd);
 
-    while(::GetMessage(&msg,hwnd,0,0)){
+    ::InvalidateRect(hwnd,NULL,TRUE);
+
+    while(::GetMessage(&msg,NULL,0,0)){
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
@@ -72,6 +77,7 @@ LRESULT CALLBACK fnWinProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     HDC hdc;
     PAINTSTRUCT ps;
     static HWND DefWinStyleBtn;
+    static Renderer* MainWindowRenderer = nullptr;
     int cxPadding = 50;
     int cyPadding = 50;
     switch (msg)
@@ -91,12 +97,21 @@ LRESULT CALLBACK fnWinProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
             GetModuleHandle(NULL),
             NULL
         );
+        MainWindowRenderer = new Renderer();
+        MainWindowRenderer->SetStage(hwnd);
         return 0;
     }
+    case WM_PAINT:{
+        hdc = ::BeginPaint(hwnd,&ps);
+        MainWindowRenderer->Render();
+        ::EndPaint(hwnd,&ps);
+        return 0;
+    }
+    case WM_SIZE:
+    return 0;
     case WM_DESTROY:
-        PostQuitMessage(0);
-    return 1;
-    
+        ::PostQuitMessage(0);
+    return 0;
     default:
         break;
     }
