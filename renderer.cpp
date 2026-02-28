@@ -18,7 +18,7 @@ void Renderer::Render()
     int y = (int)(h/2);
 
     mGfx->BeginDraw();
-    mGfx->drawCircle(x,y,w,y,D2D1::ColorF::Crimson);
+    mGfx->drawCircle(x,y,w/2,h/2,D2D1::ColorF::Crimson);
     mGfx->EndDraw();
 }
 

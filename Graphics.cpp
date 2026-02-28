@@ -5,7 +5,12 @@
 
 #pragma region Initializers 
 
-Graphics::Graphics(HWND hwnd) : mHwnd(hwnd)
+Graphics::Graphics(HWND hwnd)
+    : mHwnd(hwnd),
+      mpfact(nullptr),
+      mpRend(nullptr),
+      mpBrush(nullptr),
+      misInit(false)
 {
 }
 

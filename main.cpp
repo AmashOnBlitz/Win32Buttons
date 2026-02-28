@@ -102,6 +102,7 @@ LRESULT CALLBACK fnWinProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
         return 0;
     }
     case WM_PAINT:{
+        if (!MainWindowRenderer) break;
         hdc = ::BeginPaint(hwnd,&ps);
         MainWindowRenderer->Render();
         ::EndPaint(hwnd,&ps);

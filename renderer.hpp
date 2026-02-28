@@ -6,7 +6,8 @@
 
 class Renderer{
 public:
-    Renderer(){};
+    Renderer() : mHWnd(nullptr), mGfx(nullptr) {}
+    ~Renderer() { delete mGfx; }
     virtual void SetStage(HWND hWnd);
     virtual void Render();
     HWND getCurrentStage();
